@@ -1,0 +1,6 @@
+name = Cdialog
+description = 基于Ctools实现弹出框
+package = Custom
+core = 7.x
+
+dependencies[] = ctools

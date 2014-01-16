@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * Include files as necessary.
+ *
+ * @param $style
+ *
+ * @param $reset_style
+ */
+function cdialog_include($style = NULL, $reset_style = FALSE) {
+  ctools_include('ajax');
+  ctools_include('modal');
+  ctools_modal_add_js();
+  $module_path = drupal_get_path('module', 'cdialog');
+  drupal_add_css($module_path . '/css/cdialog.css');
+  drupal_add_js($module_path . '/js/cdialog.js');
+  if ($reset_style) {
+  	$dialog_style = $style;
+  }
+  else {
+    $dialog_style = array(
+      'ctools-cdialog-style' => array(
+        'modalSize' => array(
+          'type' => isset($style['modalSize']['type']) ? $style['modalSize']['type'] : 'fixed',
+          'width' => isset($style['modalSize']['width']) ? $style['modalSize']['width'] : 500,
+          'height' => isset($style['modalSize']['height']) ? $style['modalSize']['height'] : 'auto',
+          'addWidth' => isset($style['modalSize']['addWidth']) ? $style['modalSize']['addWidth'] : 20,
+          'addHeight' => isset($style['modalSize']['addHeight']) ? $style['modalSize']['addHeight'] : 15,
+        ),
+        'modalOptions' => array(
+          'opacity' => isset($style['modalOptions']['opacity']) ? $style['modalOptions']['opacity'] : 0.5,
+          'background-color' => isset($style['modalOptions']['background-color']) ? $style['modalOptions']['background-color'] : '#000',
+        ),
+        'animation' => isset($style['animation']) ? $style['animation'] : 'fadeIn',
+        'modalTheme' => 'CToolsCdialogdModal',
+        'throbber' => theme('image', array('path' => $module_path.'/images/ajax-loader.gif', 'alt' => t('加载中...'), 'title' => t('加载中'))),
+      ),
+    );
+	}
+  drupal_add_js($dialog_style, 'setting');
+}
+
+/**
+ * Orth dialog link class.
+ *
+ * @param $custom
+ */
+function cdialog_link_class($custom = NULL) {
+	return array('ctools-use-modal', isset($custom) ? $custom : 'ctools-modal-ctools-cdialog-style');
+}
